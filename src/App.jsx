@@ -29,14 +29,14 @@ const App = () => {
   };
 
   const clearForm = () => {
-    setErrorMsg(""),
-      setNama(""),
-      setUniv(""),
-      setAlamat(""),
-      setMinat(""),
-      setJurusan(""),
-      setError(!error),
-      setErrorMsg("");
+    setErrorMsg("");
+    setNama("");
+    setUniv("");
+    setAlamat("");
+    setMinat("");
+    setJurusan("");
+    setError(!error);
+    setErrorMsg("");
   };
 
   const handleSubmit = () => {
