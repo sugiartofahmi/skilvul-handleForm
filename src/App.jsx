@@ -5,51 +5,56 @@ import { DataJurusan } from "./helper/DataJurusan";
 import { useEffect, useState } from "react";
 
 const App = () => {
-  const [nama, setNama] = useState("");
-  const [univ, setUniv] = useState("");
-  const [alamat, setAlamat] = useState("");
-  const [jurusan, setJurusan] = useState("");
-  const [minat, setMinat] = useState("");
-  const [error, setError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [user, setUser] = useState({
+    nama: "",
+    univ: "",
+    alamat: "",
+    jurusan: "",
+    minat: "",
+  });
+  const [error, setError] = useState({ error: false, errorMsg: "" });
   const [DataMinat, setDataMinat] = useState([]);
 
   useEffect(() => {
-    jurusan == "Informatika"
+    user.jurusan == "Informatika"
       ? setDataMinat(DataJurusan[0].minat)
-      : jurusan == "Industri"
+      : user.jurusan == "Industri"
       ? setDataMinat(DataJurusan[1].minat)
-      : jurusan == "Elektro" && setDataMinat(DataJurusan[2].minat);
-  }, [jurusan]);
+      : user.jurusan == "Elektro" && setDataMinat(DataJurusan[2].minat);
+  }, [user.jurusan]);
 
   const validate = () => {
     return (
-      nama != "" && univ != "" && alamat != "" && jurusan != "" && minat != ""
+      user.nama != "" &&
+      user.univ != "" &&
+      user.alamat != "" &&
+      user.jurusan != "" &&
+      user.minat != ""
     );
   };
 
   const clearForm = () => {
-    setErrorMsg("");
-    setNama("");
-    setUniv("");
-    setAlamat("");
-    setMinat("");
-    setJurusan("");
-    setError(!error);
-    setErrorMsg("");
+    setUser({
+      nama: "",
+      univ: "",
+      alamat: "",
+      jurusan: "",
+      minat: "",
+    });
+    setError({ error: false, errorMsg: "" });
   };
 
   const handleSubmit = () => {
     validate()
-      ? (console.log({
-          nama,
-          univ,
-          alamat,
-          jurusan,
-          minat,
-        }),
-        clearForm())
-      : (setError(!error), setErrorMsg("Data tidak boleh kosong"));
+      ? (console.log(user), clearForm())
+      : setError({
+          errorMsg: "Data tidak boleh kosong",
+          error: !error.error,
+        });
+  };
+
+  const handleInput = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   return (
@@ -58,40 +63,40 @@ const App = () => {
         <section className="flex flex-col justify-center items-center">
           <h1 className="text-2xl font-bold">Survey Form</h1>
 
-          {error && (
-            <h1 className="text-lg font-bold text-red-500">{errorMsg}</h1>
+          {error.error && (
+            <h1 className="text-lg font-bold text-red-500">{error.errorMsg}</h1>
           )}
         </section>
 
         <section className="flex flex-col gap-y-5 w-full">
           <TextField
-            value={nama}
-            handleChange={(e) => setNama(e.target.value)}
+            value={user.nama}
+            handleChange={handleInput}
             placeholder="Masukan nama anda"
-            label="Nama"
+            label="nama"
           />
           <TextField
-            value={univ}
-            handleChange={(e) => setUniv(e.target.value)}
+            value={user.univ}
+            handleChange={handleInput}
             placeholder="Masukan asal universitas"
-            label="Universitas"
+            label="univ"
           />
           <TextField
-            value={alamat}
-            handleChange={(e) => setAlamat(e.target.value)}
+            value={user.alamat}
+            handleChange={handleInput}
             placeholder="Masukan alamat anda"
-            label="Alamat"
+            label="alamat"
           />
           <Select
-            handleChange={(e) => setJurusan(e.target.value)}
-            value={jurusan}
-            label="Jurusan"
+            value={user.jurusan}
+            handleChange={handleInput}
+            label="jurusan"
             option={DataJurusan}
           />
           <Select
-            handleChange={(e) => setMinat(e.target.value)}
-            value={minat}
-            label="Minat"
+            value={user.minat}
+            handleChange={handleInput}
+            label="minat"
             option={DataMinat}
           />
         </section>

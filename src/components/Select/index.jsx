@@ -3,6 +3,7 @@ const Select = ({ label, option, handleChange, value }) => {
     <section className="flex flex-col gap-y-2">
       <label htmlFor={label}>{label}</label>
       <select
+        name={label}
         onChange={handleChange}
         value={value}
         className="capitalize rounded text-black focus:outline-none p-2 w-full"
